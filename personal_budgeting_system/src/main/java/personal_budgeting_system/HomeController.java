@@ -18,7 +18,7 @@ public class HomeController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/personal_budgeting_system/define_account.fxml"));
                 Stage stage = (Stage) openAccountPageButton.getScene().getWindow();
-                Scene scene = new Scene(loader.load(), 400, 300);
+                Scene scene = new Scene(loader.load(), 1000, 563);
                 stage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
