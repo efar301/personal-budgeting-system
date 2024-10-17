@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="personal_budgeting_system.HomeController">
+    <children>
+        <Button fx:id="openAccountPageButton" text="Define New Account" layoutX="120.0" layoutY="130.0"/>
+    </children>
+</AnchorPane>
