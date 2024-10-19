@@ -25,7 +25,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
         // Load the home.fxml file to set up the home page UI
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/personal_budgeting_system/home.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
+        Scene scene = new Scene(fxmlLoader.load(), 750, 750);
 
         // Set the title for the primary stage (window)
         primaryStage.setTitle("Home Page");  // Home Page title only for the first page

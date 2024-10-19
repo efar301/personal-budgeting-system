@@ -50,7 +50,7 @@ public class DefineAccountController {
                 // Load the home page FXML file and set it as the scene
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/personal_budgeting_system/home.fxml"));
                 Stage stage = (Stage) backButton.getScene().getWindow();
-                Scene scene = new Scene(loader.load(), 400, 300);
+                Scene scene = new Scene(loader.load(), 750, 750);
                 stage.setTitle("Home Page");  // Return back to the home page
                 stage.setScene(scene);
             } catch (IOException e) {
