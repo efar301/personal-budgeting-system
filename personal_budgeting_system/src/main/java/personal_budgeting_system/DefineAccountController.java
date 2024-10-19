@@ -1,69 +1,100 @@
 package personal_budgeting_system;
 
-import java.io.IOException;
-
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
+import javafx.event.ActionEvent;
+import java.time.LocalDate;
+import java.util.HashSet;
 
-/**
- * Controller class for the "Define New Account" page in the Personal Budgeting System.
- * Handles user input, including account name, opening balance, and opening date, 
- * as well as navigation between the home page and the new account page.
- */
 public class DefineAccountController {
 
-    // Text field for inputting the account name
     @FXML
     private TextField accountNameField;
 
-    // Text field for inputting the opening balance
     @FXML
     private TextField openingBalanceField;
 
-    // Date picker for selecting the opening date
     @FXML
     private DatePicker openingDateField;
 
-    // Button to navigate back to the home page
-    @FXML
-    private Button backButton;
-
-    // Button to save the account information
     @FXML
     private Button saveButton;
 
-    /**
-     * Initializes the DefineAccountController by setting up the action listeners 
-     * for the back and save buttons. This method is automatically called after the 
-     * FXML elements have been injected.
-     */
+    @FXML
+    private Button backButton;
+
+    private static final HashSet<String> accountNames = new HashSet<>();
+
     @FXML
     public void initialize() {
-        // Action for the back button to return to the home page
-        backButton.setOnAction(event -> {
-            try {
-                // Load the home page FXML file and set it as the scene
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/personal_budgeting_system/home.fxml"));
-                Stage stage = (Stage) backButton.getScene().getWindow();
-                Scene scene = new Scene(loader.load(), 750, 750);
-                stage.setTitle("Home Page");  // Return back to the home page
-                stage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        // opening date to the current date by default
+        openingDateField.setValue(LocalDate.now());
 
-        // Action for the save button to print the entered account information
-        saveButton.setOnAction(event -> {
-            // Save action: print the entered account details to the console
-            System.out.println("Account Name: " + accountNameField.getText());
-            System.out.println("Opening Balance: " + openingBalanceField.getText());
-            System.out.println("Opening Date: " + openingDateField.getValue());
-        });
+        openingBalanceField.addEventFilter(KeyEvent.KEY_TYPED, this::validateDoubleInput);
+    }
+
+    @FXML
+    private void onSave(ActionEvent event) {
+        String accountName = accountNameField.getText().trim();
+        String balanceText = openingBalanceField.getText().trim();
+        LocalDate openingDate = openingDateField.getValue();
+
+        // required fields
+        if (accountName.isEmpty() || balanceText.isEmpty() || openingDate == null) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "All fields are required.");
+            return;
+        }
+
+        //Validate balance input
+        try {
+            double openingBalance = Double.parseDouble(balanceText);
+            if (openingBalance < 0) {
+                showAlert(Alert.AlertType.ERROR, "Validation Error", "Opening balance cannot be negative.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "Invalid balance. Please enter a valid number.");
+            return;
+        }
+
+        // Check duplicate account names
+        if (accountNames.contains(accountName)) {
+            showAlert(Alert.AlertType.ERROR, "Duplicate Account", "Account name already exists.");
+            return;
+        }
+
+        // Save the account details
+        accountNames.add(accountName);  //prevent future duplicates
+        showAlert(Alert.AlertType.INFORMATION, "Success", "Account saved successfully.");
+
+        clearFields();
+    }
+
+    @FXML
+    private void onBack(ActionEvent event) {
+        System.out.println("Back button pressed");
+    }
+
+    private void clearFields() {
+        accountNameField.clear();
+        openingBalanceField.clear();
+        openingDateField.setValue(LocalDate.now());
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    //allow only numeric input with one decimal point
+    private void validateDoubleInput(KeyEvent event) {
+        String input = event.getCharacter();
+        if (!input.matches("\\d|\\.") || (input.equals(".") && openingBalanceField.getText().contains("."))) {
+            event.consume();  //ignore invalid input
+        }
     }
 }
