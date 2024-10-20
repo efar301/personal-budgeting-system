@@ -19,7 +19,7 @@ public class App extends Application {
      *
      * @param primaryStage The primary stage for this application, onto which
      *                     the scene is set.
-     * @throws IOException If the FXML file cannot be loaded.
+     * @throws IOException If the FXML file can not be loaded.
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
