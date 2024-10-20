@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="personal_budgeting_system.HomeController" spacing="20" alignment="CENTER">
+    <children>
+        <HBox style="-fx-background-color: #87CEFA;" alignment="CENTER" prefHeight="50" VBox.vgrow="NEVER">
+            <Label text="Money Minder" style="-fx-text-fill: black; -fx-font-size: 24px;" />
+        </HBox>
+
+        <VBox spacing="20" alignment="CENTER">
+            <Button fx:id="openAccountPageButton" text="Define New Account" />
+        </VBox>
+    </children>
+</VBox>
